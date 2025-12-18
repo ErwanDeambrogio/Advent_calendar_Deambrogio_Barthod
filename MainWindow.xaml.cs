@@ -18,7 +18,7 @@ namespace Advent_calendar_Deambrogio_Barthod
         private readonly DispatcherTimer _timer;
         private readonly DispatcherTimer _snowTimer;
         private readonly Random _rand = new Random();
-        private MediaPlayer _mediaPlayer;
+        private readonly string _userPrenom;
         private readonly List<Color> _themeColors = new List<Color>
         {
             (Color)ColorConverter.ConvertFromString("#C41E3A"),
@@ -27,14 +27,28 @@ namespace Advent_calendar_Deambrogio_Barthod
             (Color)ColorConverter.ConvertFromString("#2E4057")
         };
 
-        public MainWindow()
+        public MainWindow(string prenom)
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur InitializeComponent: {ex.Message}\n\n{ex.StackTrace}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            _userPrenom = prenom;
             _today = DateTime.Now;
-            DateText.Text = _today.ToString("dddd dd MMMM yyyy");
 
-            GenerateCards();
+            // Charger ou créer les données
+            LoadOrCreateProgress();
+
+            // Mettre à jour l'affichage avec le prénom
+            this.Title = $"Calendrier de l'Avent - {_userPrenom}";
+            DateText.Text = $"Bonjour {_userPrenom} ! {_today.ToString("dddd dd MMMM yyyy")}";
+
             UpdateCentralCard();
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
@@ -46,36 +60,68 @@ namespace Advent_calendar_Deambrogio_Barthod
             _snowTimer.Start();
 
             AnimateCardEntrance();
-
-            // Démarrer la musique de fond
-            PlayBackgroundMusic();
         }
 
-        private void PlayBackgroundMusic()
+        private void LoadOrCreateProgress()
         {
-            try
+            var saveData = SaveManager.LoadProgress(_userPrenom);
+
+            if (saveData != null && saveData.Cards != null && saveData.Cards.Count == 25)
             {
-                _mediaPlayer = new MediaPlayer();
-                string musicPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Son", "MusiqueFonds.mp3");
-                _mediaPlayer.Open(new Uri(musicPath, UriKind.Absolute));
-                _mediaPlayer.MediaEnded += (s, e) =>
+                // Charger la progression existante
+                MessageBox.Show($"Bon retour {_userPrenom} !\nDernière visite : {saveData.LastSave:dd/MM/yyyy à HH:mm}",
+                    "Bienvenue", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                string[] messages = GetMessages();
+
+                for (int i = 0; i < saveData.Cards.Count; i++)
                 {
-                    _mediaPlayer.Position = TimeSpan.Zero;
-                    _mediaPlayer.Play();
-                };
-                _mediaPlayer.Volume = 0.3; // Volume à 30%
-                _mediaPlayer.Play();
+                    var cardData = saveData.Cards[i];
+                    DateTime availableDate = new DateTime(_today.Year, 12, cardData.Day);
+
+                    _cards.Add(new DayCard
+                    {
+                        Day = cardData.Day,
+                        AvailableDate = availableDate,
+                        Message = messages[cardData.Day - 1],
+                        BgColor = cardData.GetColor(),
+                        IsRevealed = cardData.IsRevealed,
+                        RevealedEmoji = cardData.RevealedEmoji
+                    });
+                }
             }
-            catch (Exception ex)
+            else
             {
-                // Si la musique ne peut pas être chargée, on continue sans musique
-                MessageBox.Show($"Erreur de chargement de la musique: {ex.Message}\nChemin: {System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Son", "MusiqueFonds.mp3")}");
+                // Créer une nouvelle progression
+                MessageBox.Show($"Bienvenue {_userPrenom} !\nC'est votre premier calendrier de l'Avent 🎄",
+                    "Bienvenue", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                GenerateCards();
+                SaveProgress();
             }
         }
 
         private void GenerateCards()
         {
-            string[] messages = {
+            string[] messages = GetMessages();
+
+            for (int i = 1; i <= 25; i++)
+            {
+                DateTime availableDate = new DateTime(_today.Year, 12, i);
+                _cards.Add(new DayCard
+                {
+                    Day = i,
+                    AvailableDate = availableDate,
+                    Message = messages[i - 1],
+                    BgColor = _themeColors[_rand.Next(_themeColors.Count)]
+                });
+            }
+        }
+
+        private string[] GetMessages()
+        {
+            return new string[]
+            {
                 "Un chocolat chaud vous attend ! ☕",
                 "Moment magique à savourer ! ✨",
                 "Joyeux instant festif ! 🎁",
@@ -102,18 +148,11 @@ namespace Advent_calendar_Deambrogio_Barthod
                 "Veille de Noël ! 🎅",
                 "Joyeux Noël ! 🎄🎁"
             };
+        }
 
-            for (int i = 1; i <= 25; i++)
-            {
-                DateTime availableDate = new DateTime(_today.Year, 12, i);
-                _cards.Add(new DayCard
-                {
-                    Day = i,
-                    AvailableDate = availableDate,
-                    Message = messages[i - 1],
-                    BgColor = _themeColors[_rand.Next(_themeColors.Count)]
-                });
-            }
+        private void SaveProgress()
+        {
+            SaveManager.SaveProgress(_userPrenom, _cards);
         }
 
         private void UpdateCentralCard()
@@ -328,6 +367,9 @@ namespace Advent_calendar_Deambrogio_Barthod
                 CardMessageText.Text = card.Message;
                 CardMessageText.FontSize = 24;
 
+                // ⭐ SAUVEGARDE AUTOMATIQUE quand on ouvre une carte
+                SaveProgress();
+
                 var expandAnimation = new DoubleAnimation
                 {
                     From = 0,
@@ -437,6 +479,15 @@ namespace Advent_calendar_Deambrogio_Barthod
         private void Timer_Tick(object? sender, EventArgs e)
         {
             UpdateCentralCard();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            // ⭐ SAUVEGARDE FINALE avant de fermer
+            SaveProgress();
+            _timer?.Stop();
+            _snowTimer?.Stop();
+            base.OnClosed(e);
         }
     }
 

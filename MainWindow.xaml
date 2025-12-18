@@ -7,9 +7,9 @@
 
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-            <GradientStop Color="#0A1628" Offset="0"/>
-            <GradientStop Color="#1B2845" Offset="0.5"/>
-            <GradientStop Color="#2E4057" Offset="1"/>
+            <GradientStop Color="#4A0E0E" Offset="0"/>
+            <GradientStop Color="#6B1616" Offset="0.5"/>
+            <GradientStop Color="#8B1A1A" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
 
@@ -19,8 +19,8 @@
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#C41E3A" Offset="0"/>
-                        <GradientStop Color="#8B0000" Offset="1"/>
+                        <GradientStop Color="DarkGreen" Offset="0"/>
+                        <GradientStop Color="DarkOliveGreen" Offset="1"/>
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
@@ -37,7 +37,7 @@
                         <Grid>
                             <Ellipse x:Name="ButtonEllipse" Fill="{TemplateBinding Background}">
                                 <Ellipse.Effect>
-                                    <DropShadowEffect Color="#FFD700" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                    <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
                                 </Ellipse.Effect>
                             </Ellipse>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -103,10 +103,6 @@
     </Window.Resources>
 
     <Grid x:Name="MainGrid">
-        <!-- Image de fond -->
-        <Grid.Background>
-            <ImageBrush ImageSource="Images/fond.jpg" Stretch="UniformToFill"/>
-        </Grid.Background>
 
         <!-- Canvas pour la neige animée -->
         <Canvas x:Name="SnowCanvas" ClipToBounds="True"/>
