@@ -37,7 +37,7 @@
                         <Grid>
                             <Ellipse x:Name="ButtonEllipse" Fill="{TemplateBinding Background}">
                                 <Ellipse.Effect>
-                                    <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                    <DropShadowEffect Color="#4A0E0E" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
                                 </Ellipse.Effect>
                             </Ellipse>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -59,6 +59,8 @@
             </Setter>
         </Style>
 
+        
+        
         <!-- Style pour le bouton retour -->
         <Style x:Key="BackButton" TargetType="Button">
             <Setter Property="Background">
@@ -102,7 +104,12 @@
         </Style>
     </Window.Resources>
 
+
+    
+
     <Grid x:Name="MainGrid">
+        
+        
 
         <!-- Canvas pour la neige animée -->
         <Canvas x:Name="SnowCanvas" ClipToBounds="True"/>
@@ -204,7 +211,7 @@
                                             </RadialGradientBrush>
                                         </Border.Background>
                                         <Border.Effect>
-                                            <DropShadowEffect Color="#FFD700" BlurRadius="25" ShadowDepth="0" Opacity="0.8"/>
+                                            <DropShadowEffect Color="DarkBlue" BlurRadius="25" ShadowDepth="0" Opacity="0.8"/>
                                         </Border.Effect>
 
                                         <Viewbox Margin="20">
@@ -213,27 +220,29 @@
                                     </Border>
 
                                     <!-- Message -->
-                                    <Border Background="#1B2845" CornerRadius="20" Margin="0,0,0,30" Opacity="0.95">
+                                    <Border Background="White" CornerRadius="20" Margin="0,0,0,30" Opacity="0.95">
                                         <Border.Effect>
-                                            <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="3" Opacity="0.5"/>
+                                            <DropShadowEffect Color="DarkBlue" BlurRadius="15" ShadowDepth="3" Opacity="0.5"/>
                                         </Border.Effect>
                                         <TextBlock x:Name="CardMessageText" 
                                                    FontSize="20" 
                                                    FontWeight="SemiBold" 
-                                                   Foreground="White" 
+                                                   Foreground="darkgreen" 
                                                    TextWrapping="Wrap" 
                                                    TextAlignment="Center"
                                                    LineHeight="28"
                                                    Margin="25,20"/>
                                     </Border>
+                                    
+                                    
 
                                     <!-- Flocon cliquable avec animation -->
                                     <Border Width="120" Height="120" CornerRadius="60" 
-                                            Background="#2E4057" 
+                                            Background="White" 
                                             Cursor="Hand"
                                             MouseDown="FloconImage_MouseDown">
                                         <Border.Effect>
-                                            <DropShadowEffect Color="#00BCD4" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                                            <DropShadowEffect Color="DarkBlue" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
                                         </Border.Effect>
                                         <Viewbox Margin="15">
                                             <TextBlock Text="❄️" FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -259,6 +268,8 @@
                         VerticalAlignment="Center"
                         Margin="20,0"/>
             </Grid>
+            
+            
         </Grid>
 
         <!-- Vue plein écran de la carte ouverte -->

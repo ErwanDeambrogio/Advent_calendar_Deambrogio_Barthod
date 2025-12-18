@@ -21,10 +21,10 @@ namespace Advent_calendar_Deambrogio_Barthod
         private readonly string _userPrenom;
         private readonly List<Color> _themeColors = new List<Color>
         {
-            (Color)ColorConverter.ConvertFromString("#C41E3A"),
-            (Color)ColorConverter.ConvertFromString("#1B5E20"),
-            (Color)ColorConverter.ConvertFromString("#8B0000"),
-            (Color)ColorConverter.ConvertFromString("#2E4057")
+            (Color)ColorConverter.ConvertFromString("#8B1538"),  // Bordeaux profond
+            (Color)ColorConverter.ConvertFromString("#1B4332"),  // Vert forêt
+            (Color)ColorConverter.ConvertFromString("#B8860B"),  // Or foncé
+        (Color)ColorConverter.ConvertFromString("#2C3E50"),  // Bleu ardoise
         };
 
         public MainWindow(string prenom)
@@ -122,31 +122,32 @@ namespace Advent_calendar_Deambrogio_Barthod
         {
             return new string[]
             {
-                "Un chocolat chaud vous attend ! ☕",
-                "Moment magique à savourer ! ✨",
-                "Joyeux instant festif ! 🎁",
-                "Douceur de l'Avent ! 🍪",
-                "Étoile filante de bonheur ! ⭐",
-                "Cadeau surprise du jour ! 🎀",
-                "Flocons de joie ! ❄️",
-                "Lumière de Noël ! 🕯️",
-                "Bonheur hivernal ! 🌨️",
-                "Magie de décembre ! 🎄",
-                "Tradition festive ! 🔔",
-                "Instant de paix ! 🕊️",
-                "Délice de saison ! 🥮",
-                "Rêve de Noël ! 💫",
-                "Chant des anges ! 👼",
-                "Merveille givrée ! ⛄",
-                "Câlin chaleureux ! 🧣",
-                "Surprise pétillante ! 🎊",
-                "Biscuit au gingembre ! 🍯",
-                "Couronne de l'Avent ! 🌿",
-                "Éclat doré ! ✨",
-                "Conte de fées ! 📖",
-                "Nuit étoilée ! 🌟",
-                "Veille de Noël ! 🎅",
-                "Joyeux Noël ! 🎄🎁"
+                "Un délicieux chocolat chaud vous attend pour réchauffer votre cœur et vos mains ! ☕",
+                "Profitez d’un moment magique à savourer, rempli de douceur et de lumière ! ✨",
+                "Un joyeux instant festif vous invite à sourire et partager le bonheur ! 🎁",
+                "Douceur de l’Avent à savourer, pour réchauffer vos pensées et votre journée ! 🍪",
+                "Que cette étoile filante de bonheur illumine vos rêves les plus chers ! ⭐",
+                "Un cadeau surprise du jour pour illuminer votre journée et vous faire sourire ! 🎀",
+                "Flocons de joie tourbillonnent autour de vous, emplissant l’air de magie ! ❄️",
+                "Que la lumière de Noël réchauffe votre âme et illumine vos moments précieux ! 🕯️",
+                "Bonheur hivernal à partager avec ceux que vous aimez, un vrai câlin pour l’âme ! 🌨️",
+                "Magie de décembre à savourer pleinement, avec rires et souvenirs précieux ! 🎄",
+                "Une belle tradition festive vous entoure de chaleur et de bonheur ! 🔔",
+                "Instant de paix pour votre cœur et votre esprit, laissez la sérénité vous envelopper ! 🕊️",
+                "Un délice de saison à savourer lentement, pour éveiller vos papilles et vos souvenirs ! 🥮",
+                "Rêve de Noël qui réchauffe le cœur et inspire de doux moments enchantés ! 💫",
+                "Chant des anges qui accompagne votre journée d’harmonie et de joie ! 👼",
+                "Une merveille givrée vous invite à contempler la beauté de l’hiver avec émerveillement ! ⛄",
+                "Un câlin chaleureux qui enveloppe votre esprit et vous rappelle que vous êtes aimé(e) ! 🧣",
+                "Surprise pétillante qui illumine votre journée et éveille la magie autour de vous ! 🎊",
+                "Biscuit au gingembre pour éveiller vos sens et rappeler la douceur des fêtes ! 🍯",
+                "Couronne de l’Avent décorée de lumière et de chaleur pour embellir vos journées ! 🌿",
+                "Éclat doré qui réchauffe le cœur et fait briller la magie de Noël dans vos yeux ! ✨",
+                "Conte de fées qui transforme votre journée en aventure merveilleuse et lumineuse ! 📖",
+                "Nuit étoilée pour rêver, se détendre et ressentir la magie du ciel hivernal ! 🌟",
+                "Veille de Noël pleine d’attente joyeuse, de rires et de doux souvenirs partagés ! 🎅",
+                "Joyeux Noël rempli de rires, de chaleur, de cadeaux et de moments inoubliables ! 🎄🎁"
+
             };
         }
 
