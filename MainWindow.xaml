@@ -1,0 +1,274 @@
+﻿<Window x:Class="Advent_calendar_Deambrogio_Barthod.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calendrier de l'Avent Magique"
+        Height="900" Width="1200"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- Fond dégradé rouge festif -->
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#4A0E0E" Offset="0"/>
+            <GradientStop Color="#6B1616" Offset="0.5"/>
+            <GradientStop Color="#8B1A1A" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Window.Resources>
+        <!-- Style pour les boutons de navigation (précédent/suivant) -->
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="DarkGreen" Offset="0"/>
+                        <GradientStop Color="DarkOliveGreen" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <!-- Bouton circulaire avec ombre -->
+                            <Ellipse x:Name="ButtonEllipse" Fill="{TemplateBinding Background}">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#4A0E0E" BlurRadius="15" ShadowDepth="0" Opacity="0.6"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!-- Effet hover : change en doré -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonEllipse" Property="Fill">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#FFD700" Offset="0"/>
+                                            <GradientStop Color="#FFA500" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="MainGrid">
+
+        <!-- Canvas pour l'animation de neige en arrière-plan -->
+        <Canvas x:Name="SnowCanvas" ClipToBounds="True"/>
+
+        <!-- Contenu principal -->
+        <Grid Margin="40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- En-tête festif avec titre et date -->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,20">
+                <!-- Titre principal avec effet doré brillant -->
+                <TextBlock FontSize="58" FontWeight="Bold" TextAlignment="Center" Margin="0,0,0,10">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#FFD700" Offset="0"/>
+                            <GradientStop Color="#FFA500" Offset="0.5"/>
+                            <GradientStop Color="#FFD700" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                    <TextBlock.Effect>
+                        <DropShadowEffect Color="#C41E3A" BlurRadius="20" ShadowDepth="0" Opacity="0.8"/>
+                    </TextBlock.Effect>
+                    <Run Text="🎄 "/>
+                    <Run Text="Calendrier de l'Avent Magique"/>
+                    <Run Text=" 🎄"/>
+                </TextBlock>
+
+                <!-- Zone de date avec prénom de l'utilisateur -->
+                <Border Background="#1B2845" CornerRadius="20" HorizontalAlignment="Center" Opacity="0.9">
+                    <Border.Effect>
+                        <DropShadowEffect Color="#FFD700" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                    </Border.Effect>
+                    <TextBlock x:Name="DateText" FontSize="20" Foreground="White" FontWeight="SemiBold" Margin="15,8"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Zone de la carte centrale avec navigation -->
+            <Grid Grid.Row="1" Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Bouton précédent (flèche gauche) -->
+                <Button x:Name="PrevButton" Content="❮" Grid.Column="0" 
+                        Style="{StaticResource NavButton}" 
+                        Click="PrevButton_Click"
+                        VerticalAlignment="Center"
+                        Margin="20,0"/>
+
+                <!-- Carte centrale avec toutes ses décorations -->
+                <Viewbox Grid.Column="1" Stretch="Uniform" MaxWidth="500" MaxHeight="650">
+                    <Border x:Name="CentralCard" Width="450" Height="600" CornerRadius="30">
+                        <!-- Fond dégradé rouge de la carte -->
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#C41E3A" Offset="0"/>
+                                <GradientStop Color="#8B0000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <!-- Ombre portée pour effet 3D -->
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="8" Opacity="0.7"/>
+                        </Border.Effect>
+
+                        <!-- Bordure décorative dorée -->
+                        <Border CornerRadius="30" BorderThickness="4" Margin="8">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#FFD700" Offset="0"/>
+                                    <GradientStop Color="#FFA500" Offset="0.5"/>
+                                    <GradientStop Color="#FFD700" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+
+                            <Grid>
+                                <!-- Motifs décoratifs (étoiles et flocons) -->
+                                <Canvas>
+                                    <!-- Étoiles décoratives dans les coins -->
+                                    <TextBlock Text="✨" FontSize="30" Canvas.Left="30" Canvas.Top="30" Foreground="#FFD700" Opacity="0.7"/>
+                                    <TextBlock Text="⭐" FontSize="25" Canvas.Left="370" Canvas.Top="50" Foreground="#FFD700" Opacity="0.6"/>
+                                    <TextBlock Text="✨" FontSize="28" Canvas.Left="50" Canvas.Top="500" Foreground="White" Opacity="0.5"/>
+                                    <TextBlock Text="⭐" FontSize="32" Canvas.Left="380" Canvas.Top="510" Foreground="#FFD700" Opacity="0.7"/>
+
+                                    <!-- Flocons décoratifs sur les côtés -->
+                                    <TextBlock Text="❄" FontSize="24" Canvas.Left="350" Canvas.Top="100" Foreground="White" Opacity="0.4"/>
+                                    <TextBlock Text="❄" FontSize="20" Canvas.Left="80" Canvas.Top="150" Foreground="White" Opacity="0.3"/>
+                                    <TextBlock Text="❄" FontSize="26" Canvas.Left="340" Canvas.Top="450" Foreground="White" Opacity="0.35"/>
+                                </Canvas>
+
+                                <!-- Contenu principal de la carte -->
+                                <StackPanel x:Name="CardContent" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+                                    <!-- Cercle doré contenant le numéro du jour ou l'emoji -->
+                                    <Border Width="180" Height="180" CornerRadius="90" Margin="0,0,0,30">
+                                        <Border.Background>
+                                            <RadialGradientBrush>
+                                                <GradientStop Color="#FFD700" Offset="0"/>
+                                                <GradientStop Color="#FFA500" Offset="1"/>
+                                            </RadialGradientBrush>
+                                        </Border.Background>
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="DarkBlue" BlurRadius="25" ShadowDepth="0" Opacity="0.8"/>
+                                        </Border.Effect>
+
+                                        <Viewbox Margin="20">
+                                            <TextBlock x:Name="DayNumberText" FontWeight="Black" Foreground="#8B0000" TextAlignment="Center"/>
+                                        </Viewbox>
+                                    </Border>
+
+                                    <!-- Zone du message avec fond blanc -->
+                                    <Border Background="White" CornerRadius="20" Margin="0,0,0,30" Opacity="0.95">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="DarkBlue" BlurRadius="15" ShadowDepth="3" Opacity="0.5"/>
+                                        </Border.Effect>
+                                        <TextBlock x:Name="CardMessageText" 
+                                                   FontSize="20" 
+                                                   FontWeight="SemiBold" 
+                                                   Foreground="darkgreen" 
+                                                   TextWrapping="Wrap" 
+                                                   TextAlignment="Center"
+                                                   LineHeight="28"
+                                                   Margin="25,20"/>
+                                    </Border>
+
+                                    <!-- Flocon cliquable (pour ouvrir la carte) -->
+                                    <Border Width="120" Height="120" CornerRadius="60" 
+                                            Background="White" 
+                                            Cursor="Hand"
+                                            MouseDown="FloconImage_MouseDown">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="DarkBlue" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                                        </Border.Effect>
+                                        <Viewbox Margin="15">
+                                            <TextBlock Text="❄️" FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Viewbox>
+                                    </Border>
+
+                                    <!-- Texte d'instruction -->
+                                    <TextBlock Text="Cliquez pour ouvrir !" 
+                                               FontSize="14" 
+                                               Foreground="#FFD700" 
+                                               FontStyle="Italic"
+                                               TextAlignment="Center"
+                                               Margin="0,10,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Border>
+                </Viewbox>
+
+                <!-- Bouton suivant (flèche droite) -->
+                <Button x:Name="NextButton" Content="❯" Grid.Column="2" 
+                        Style="{StaticResource NavButton}" 
+                        Click="NextButton_Click"
+                        VerticalAlignment="Center"
+                        Margin="20,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- ⭐ CONTRÔLE DE VOLUME - Nouveau panneau en bas à droite -->
+        <Border HorizontalAlignment="Right" 
+                VerticalAlignment="Bottom" 
+                Background="#1B2845" 
+                CornerRadius="15" 
+                Padding="15,10" 
+                Margin="20"
+                Opacity="0.9">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" ShadowDepth="3" Opacity="0.6"/>
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- Icône de musique -->
+                <TextBlock Text="🎵" FontSize="24" Margin="0,0,10,0" VerticalAlignment="Center"/>
+
+                <!-- Slider de volume (0 à 100) -->
+                <Slider x:Name="VolumeSlider" 
+                        Width="120" 
+                        Minimum="0" 
+                        Maximum="100" 
+                        Value="30"
+                        TickFrequency="10"
+                        IsSnapToTickEnabled="False"
+                        VerticalAlignment="Center"
+                        Foreground="#FFD700"/>
+
+                <!-- Pourcentage du volume -->
+                <TextBlock Text="{Binding ElementName=VolumeSlider, Path=Value, StringFormat={}{0:0}%}" 
+                           Foreground="White" 
+                           FontSize="14" 
+                           FontWeight="SemiBold"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           MinWidth="35"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Vue plein écran de la carte ouverte (non utilisé actuellement) -->
+        <Grid x:Name="DayView" Visibility="Collapsed" Background="#0A1628">
+            <Grid.Effect>
+                <BlurEffect Radius="0" x:Name="DayViewBlur"/>
+            </Grid.Effect>
+        </Grid>
+    </Grid>
+</Window>
